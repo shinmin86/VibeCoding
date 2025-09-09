@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테트리스 게임</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1>테트리스</h1>
+            <div class="score-board">
+                <div class="score-item">
+                    <span>점수:</span>
+                    <span id="score">0</span>
+                </div>
+                <div class="score-item">
+                    <span>레벨:</span>
+                    <span id="level">1</span>
+                </div>
+                <div class="score-item">
+                    <span>라인:</span>
+                    <span id="lines">0</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <div class="game-board">
+                <canvas id="gameCanvas" width="300" height="600"></canvas>
+            </div>
+            
+            <div class="game-info">
+                <div class="next-piece">
+                    <h3>다음 블록</h3>
+                    <canvas id="nextCanvas" width="120" height="120"></canvas>
+                </div>
+                
+                <div class="controls">
+                    <h3>조작법</h3>
+                    <div class="control-item">
+                        <span>← →</span>
+                        <span>이동</span>
+                    </div>
+                    <div class="control-item">
+                        <span>↓</span>
+                        <span>빠른 낙하</span>
+                    </div>
+                    <div class="control-item">
+                        <span>↑</span>
+                        <span>회전</span>
+                    </div>
+                    <div class="control-item">
+                        <span>스페이스</span>
+                        <span>즉시 낙하</span>
+                    </div>
+                </div>
+                
+                <div class="game-buttons">
+                    <button id="startBtn">시작</button>
+                    <button id="pauseBtn">일시정지</button>
+                    <button id="resetBtn">리셋</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-over" id="gameOver">
+            <h2>게임 오버!</h2>
+            <p>최종 점수: <span id="finalScore">0</span></p>
+            <button id="restartBtn">다시 시작</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
