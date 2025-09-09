@@ -11,6 +11,9 @@ import time
 import csv
 import json
 from datetime import datetime
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Border, Side, Alignment
+from openpyxl.utils import get_column_letter
 
 
 class AlternativeNewsCrawler:
@@ -187,6 +190,79 @@ class AlternativeNewsCrawler:
         except Exception as e:
             print(f"파일 저장 중 오류 발생: {e}")
     
+    def save_to_excel(self, titles, filename='result.xlsx'):
+        """
+        크롤링한 제목들을 Excel 파일로 저장합니다 (openpyxl 사용).
+        
+        Args:
+            titles (list): 뉴스 제목 리스트
+            filename (str): 저장할 파일명
+        """
+        try:
+            # 새 워크북 생성
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "뉴스 제목"
+            
+            # 헤더 스타일 설정
+            header_font = Font(bold=True, color="FFFFFF")
+            header_fill = PatternFill(start_color="366092", end_color="366092", fill_type="solid")
+            header_border = Border(
+                left=Side(style='thin'),
+                right=Side(style='thin'),
+                top=Side(style='thin'),
+                bottom=Side(style='thin')
+            )
+            center_alignment = Alignment(horizontal='center', vertical='center')
+            
+            # 헤더 작성
+            headers = ['번호', '뉴스 제목', '수집시간']
+            for col, header in enumerate(headers, 1):
+                cell = ws.cell(row=1, column=col, value=header)
+                cell.font = header_font
+                cell.fill = header_fill
+                cell.border = header_border
+                cell.alignment = center_alignment
+            
+            # 데이터 입력
+            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            for idx, title in enumerate(titles, 1):
+                # 번호
+                ws.cell(row=idx+1, column=1, value=idx).alignment = center_alignment
+                # 제목
+                ws.cell(row=idx+1, column=2, value=title)
+                # 시간
+                ws.cell(row=idx+1, column=3, value=current_time).alignment = center_alignment
+            
+            # 컬럼 너비 자동 조정
+            ws.column_dimensions['A'].width = 8   # 번호
+            ws.column_dimensions['B'].width = 80  # 제목 (넓게)
+            ws.column_dimensions['C'].width = 20  # 시간
+            
+            # 데이터 영역 테두리 추가
+            data_border = Border(
+                left=Side(style='thin'),
+                right=Side(style='thin'),
+                top=Side(style='thin'),
+                bottom=Side(style='thin')
+            )
+            
+            for row in range(2, len(titles) + 2):
+                for col in range(1, 4):
+                    ws.cell(row=row, column=col).border = data_border
+            
+            # 제목 행 고정
+            ws.freeze_panes = 'A2'
+            
+            # 파일 저장
+            wb.save(filename)
+            print(f"📊 Excel 파일이 저장되었습니다: {filename}")
+            print(f"   - 총 {len(titles)}개의 뉴스 제목")
+            print(f"   - 수집 시간: {current_time}")
+            
+        except Exception as e:
+            print(f"Excel 파일 저장 중 오류 발생: {e}")
+    
     def print_titles(self, titles, source=""):
         """
         크롤링한 제목들을 콘솔에 출력합니다.
@@ -266,10 +342,14 @@ def main():
         # 전체 결과 출력
         crawler.print_titles(all_titles, "전체 수집 결과")
         
-        # CSV 파일로 저장
+        # 파일 저장
         crawler.save_to_csv(all_titles, 'alternative_semiconductor_news.csv')
+        crawler.save_to_excel(all_titles, 'result.xlsx')
         
         print(f"\n✅ 크롤링 완료! 총 {len(all_titles)}개의 뉴스 제목을 수집했습니다.")
+        print("📁 저장된 파일:")
+        print("   - alternative_semiconductor_news.csv (CSV 형식)")
+        print("   - result.xlsx (Excel 형식)")
     else:
         print("❌ 뉴스 제목을 수집하지 못했습니다.")
 

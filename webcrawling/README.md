@@ -38,3 +38,4 @@ python naver_news_crawler.py
 
 반도체 관련주 검색 결과:
 `https://search.naver.com/search.naver?where=nv&sm=top_sug.pre&fbm=0&acr=1&acq=qksehcp&qdt=0&ie=utf8&query=%EB%B0%98%EB%8F%84%EC%B2%B4+%EA%B4%80%EB%A0%A8%EC%A3%BC&ackey=1p7dxcwu`
+
