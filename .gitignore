@@ -56,3 +56,11 @@ pids
 
 # CSV files (if needed, comment out)
 # *.csv
+
+# PyInstaller build files
+build/
+dist/
+*.spec
+
+# Batch files
+*.bat

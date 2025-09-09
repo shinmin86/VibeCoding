@@ -18,7 +18,7 @@ class NaverNewsCrawler:
         self.session.headers.update({
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         })
-        # SSL 인증서 검증 비활성화 (개발/테스트 목적)
+        # SSL 인증서 검증 비활성화 (개발/테excel목적)
         self.session.verify = False
         # SSL 경고 메시지 숨기기
         import urllib3
